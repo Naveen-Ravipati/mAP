@@ -9,7 +9,7 @@ import math
 
 import numpy as np
 
-MINOVERLAP = 0.5 # default value (defined in the PASCAL VOC2012 challenge)
+MINOVERLAP = 0.2 # default value (defined in the PASCAL VOC2012 challenge)
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-na', '--no-animation', help="no animation is shown.", action="store_true")
@@ -500,6 +500,8 @@ lamr_dictionary = {}
 with open(results_files_path + "/results.txt", 'w') as results_file:
     results_file.write("# AP and precision/recall per class\n")
     count_true_positives = {}
+    true_positive_rate_per_file = {}
+    analysis = open('analysis.txt','w')
     for class_index, class_name in enumerate(gt_classes):
         count_true_positives[class_name] = 0
         """
@@ -578,6 +580,10 @@ with open(results_files_path + "/results.txt", 'w') as results_file:
                             tp[idx] = 1
                             gt_match["used"] = True
                             count_true_positives[class_name] += 1
+                            if file_id not in true_positive_rate_per_file:
+                                true_positive_rate_per_file[file_id] = 1
+                            else:
+                                true_positive_rate_per_file[file_id] += 1
                             # update the ".json" file
                             with open(gt_file, 'w') as f:
                                     f.write(json.dumps(ground_truth_data))
@@ -716,6 +722,9 @@ with open(results_files_path + "/results.txt", 'w') as results_file:
             # save the plot
             fig.savefig(results_files_path + "/classes/" + class_name + ".png")
             plt.cla() # clear axes for next plot
+    for entry in true_positive_rate_per_file:
+        analysis.write(str(entry) + " " + str(true_positive_rate_per_file[entry]) + '\n')
+    analysis.close()
 
     if show_animation:
         cv2.destroyAllWindows()

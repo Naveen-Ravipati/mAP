@@ -1,0 +1,4 @@
+vehicles 632 175 657 195
+vehicles 683 174 717 196
+vehicles 767 158 861 224
+vehicles 800 174 866 201

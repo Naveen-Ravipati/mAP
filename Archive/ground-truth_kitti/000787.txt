@@ -1,0 +1,6 @@
+vehicles 0 210 142 374
+vehicles 28 184 141 226
+vehicles 142 186 223 221
+vehicles 470 184 533 229
+vehicles 548 179 571 199
+vehicles 585 178 632 225
